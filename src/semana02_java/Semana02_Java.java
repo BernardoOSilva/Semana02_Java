@@ -2,13 +2,14 @@ package semana02_java;
 
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-import view.Interface01;
+//import view.Interface01;
+import view.Interface02;
 
 public class Semana02_Java {
 
     public static void main(String[] args) {
         
-        new Interface01();
+        new Interface02().setVisible(true);
         //metodoJoption(); 
     }
     
