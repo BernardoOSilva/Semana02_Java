@@ -26,8 +26,8 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="124" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="botao" max="32767" attributes="0"/>
-                  <Component id="label" pref="174" max="32767" attributes="0"/>
+                  <Component id="start" max="32767" attributes="0"/>
+                  <Component id="tempo" pref="174" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
           </Group>
@@ -37,16 +37,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="150" max="32767" attributes="0"/>
-              <Component id="label" min="-2" pref="68" max="-2" attributes="0"/>
+              <Component id="tempo" min="-2" pref="68" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-              <Component id="botao" min="-2" pref="112" max="-2" attributes="0"/>
+              <Component id="start" min="-2" pref="112" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="botao">
+    <Component class="javax.swing.JButton" name="start">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="24" style="0"/>
@@ -54,10 +54,10 @@
         <Property name="text" type="java.lang.String" value="START"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="label">
+    <Component class="javax.swing.JLabel" name="tempo">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="48" style="0"/>

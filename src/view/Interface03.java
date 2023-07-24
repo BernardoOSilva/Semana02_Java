@@ -1,7 +1,15 @@
 package view;
 
-public class Interface03 extends javax.swing.JFrame {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 
+public class Interface03 extends javax.swing.JFrame {
+    
+    private int tempoRestante;
+    private int tempoInicial = 1;
+    private Timer timer;
+    
     public Interface03() {
         initComponents();
     }
@@ -9,22 +17,22 @@ public class Interface03 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        botao = new javax.swing.JButton();
-        label = new javax.swing.JLabel();
+        start = new javax.swing.JButton();
+        tempo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        botao.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        botao.setText("START");
-        botao.addActionListener(new java.awt.event.ActionListener() {
+        start.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        start.setText("START");
+        start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoActionPerformed(evt);
+                startActionPerformed(evt);
             }
         });
 
-        label.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label.setText("25:00");
+        tempo.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
+        tempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tempo.setText("25:00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -33,30 +41,51 @@ public class Interface03 extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(124, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(botao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                    .addComponent(start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tempo, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
                 .addGap(137, 137, 137))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(150, Short.MAX_VALUE)
-                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tempo, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85)
-                .addComponent(botao, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(96, 96, 96))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botaoActionPerformed
+    private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
 
+        tempoRestante = tempoInicial = 60; //Tempo inicial convertido segundos
+        
+        timer = new Timer(1000, (ActionEvent e) -> {
+            atualizaTempo();
+        });
+        timer.start();
+        start.setEnabled(false);
+    }//GEN-LAST:event_startActionPerformed
+    
+    private void atualizaTempo(){
+        int minutos = tempoRestante / 60;
+        int segundos = tempoRestante % 60;
+        
+        String tempoText = String.format("%02d:%02d", minutos, segundos);
+        
+        this.tempo.setText(tempoText);
+        
+        tempoRestante--;
+        if(tempoRestante < 0){
+            timer.stop();
+            start.setEnabled(true);
+        }
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botao;
-    private javax.swing.JLabel label;
+    private javax.swing.JButton start;
+    private javax.swing.JLabel tempo;
     // End of variables declaration//GEN-END:variables
 }
