@@ -3,14 +3,16 @@ package semana02_java;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 //import view.Interface01;
-import view.Interface02;
-import view.Interface03;
+//import view.Interface02;
+//import view.Interface03;
+import view.Interface04;
 
 public class Semana02_Java {
 
     public static void main(String[] args) {
         
-        new Interface03().setVisible(true);
+        new Interface04().setVisible(true);
+        //new Interface03().setVisible(true);
         //new Interface02().setVisible(true);
         //metodoJoption(); 
     }
