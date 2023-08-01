@@ -1,12 +1,69 @@
 package semana02_java;
 
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+//import view.Interface01;
+//import view.Interface02;
+//import view.Interface03;
+import view.Interface04;
 
 public class Semana02_Java {
+    private static JFrame view;
 
     public static void main(String[] args) {
-        metodoJoption(); 
+        view = new Interface04();
+        view.setVisible(true);
+        
+        
+        //new Interface04().setVisible(true);
+        //new Interface03().setVisible(true);
+        //new Interface02().setVisible(true);
+        //metodoJoption(); 
+        createIconPray();
+    }
+    
+    public static void createIconPray() {
+        if(!SystemTray.isSupported()){
+            System.out.println("Não tem suporte!");
+            return;
+        }
+        
+        String path = System.getProperty("user.dir") + File.separator + "src" + File.separator + "assets" + File.separator + "tray.png";
+        Image icon = new ImageIcon(path).getImage();
+        
+        PopupMenu menu = new PopupMenu();
+        MenuItem fechar = new MenuItem("FECHAR");
+        MenuItem open = new MenuItem("ABRIR");
+        menu.add(open);
+        menu.add(fechar);
+        
+        open.addActionListener((ActionEvent) -> {
+            view.setVisible(true);
+        });
+                
+        fechar.addActionListener((ActionEvent) -> {
+            System.exit(0);
+        });
+        
+        TrayIcon tray = new TrayIcon(icon, "Pomodoro");
+        
+        SystemTray bandeja = SystemTray.getSystemTray();
+        
+        try {
+            bandeja.add(tray);           
+        }catch (Exception e){
+            System.out.println("Não foi possivel Add tray");
+        }
+   
     }
     
     public static void metodoJoption() {
