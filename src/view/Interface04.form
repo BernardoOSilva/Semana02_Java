@@ -133,6 +133,9 @@
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonLabelMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -363,6 +366,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aplicar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ApplyButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

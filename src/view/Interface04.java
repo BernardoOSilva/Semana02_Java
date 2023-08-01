@@ -1,21 +1,40 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.Timer;
+import semana02_java.Status;
 
 public class Interface04 extends javax.swing.JFrame {
 
     public Interface04() {
         initComponents();
+        this.time = this.createTimer();
     }
+    
+    private Timer time;
     
     private final int FOCUS_TIME = 25;
     private final int SHORT_BREAK_TIME= 5;
     private final int LONG_BREAK_TIME = 15;
     private final int ROUNDS = 5;
     
-
+    private int focusTime = 25;
+    private int shortBreakTime = 5;
+    private int longBreakTime = 15;
+    private int rounds = 5;
+    
+    private int tempoRestante =25 * 60;
+    private boolean isStopped = true;
+    
+    private Status statusAtual = Status.PAUSED;
+    private Status statusAnterior = null;
+    
+    private int countRound = 0;
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -65,6 +84,11 @@ public class Interface04 extends javax.swing.JFrame {
         buttonLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         buttonLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/play.png"))); // NOI18N
         buttonLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buttonLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonLabelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout timerLayout = new javax.swing.GroupLayout(timer);
         timer.setLayout(timerLayout);
@@ -174,6 +198,11 @@ public class Interface04 extends javax.swing.JFrame {
         });
 
         ApplyButton.setText("Aplicar");
+        ApplyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ApplyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout settingsLayout = new javax.swing.GroupLayout(settings);
         settings.setLayout(settingsLayout);
@@ -326,6 +355,39 @@ public class Interface04 extends javax.swing.JFrame {
         this.RoundSlide.setValue(this.ROUNDS);
     }//GEN-LAST:event_ResetButtonActionPerformed
 
+    private void ApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApplyButtonActionPerformed
+        this.focusTime = this.FocusTimeSlide.getValue();
+        this.shortBreakTime = this.BreakShortSlide.getValue();
+        this.longBreakTime = this.BreakLongSlide.getValue();
+        this.rounds = this.RoundSlide.getValue();
+        this.tempoRestante = this.focusTime * 60;
+        int minutos = this.tempoRestante / 60;
+        int segundos = this.tempoRestante % 60;
+        timeLabel.setText(String.format("%02d:%02d", minutos, segundos));
+        changePanel("timer");
+    }//GEN-LAST:event_ApplyButtonActionPerformed
+
+    private void buttonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLabelMouseClicked
+        if(isStopped){
+            this.time.start();
+            this.buttonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/pause.png")));
+            isStopped = false;
+            
+            if(statusAnterior == null){
+                statusAtual = Status.FOCUS_TIME;
+            }else{
+                statusAtual = statusAnterior;
+            }
+            statusAnterior = Status.PAUSED;
+            
+        }else{
+            this.time.stop();
+            this.buttonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/play.png")));
+            isStopped = true;
+        }
+        
+    }//GEN-LAST:event_buttonLabelMouseClicked
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -384,5 +446,43 @@ public class Interface04 extends javax.swing.JFrame {
         int value = slider.getValue();
         String valueFormat = String.format("%02d:%02d", value, 00);
         label.setText(valueFormat);
+    }
+    
+    private Timer createTimer(){
+        return new Timer(1000,(ActionEvent e) -> {
+            updateTimer();
+        });
+    }
+    
+    private void updateTimer(){
+        this.tempoRestante--;
+        int minutos = this.tempoRestante / 60;
+        int segundos = this.tempoRestante % 60;
+        this.timeLabel.setText(String.format("%02d:%02d", minutos, segundos));
+        if(this.tempoRestante <= 0){
+            this.changeStatus();
+        }
+    }
+    
+    private void changeStatus(){
+        if(this.statusAtual == Status.FOCUS_TIME && this.rounds == this.countRound){
+            this.statusAtual = Status.LONG_BREAK;
+            this.statusAnterior = Status.FOCUS_TIME;
+            this.countRound = 0;
+            this.tempoRestante = this.longBreakTime * 60;           
+        }else if(this.statusAtual == Status.FOCUS_TIME && this.rounds != this.countRound){
+            this.statusAtual = Status.SHORT_BREAK;
+            this.statusAnterior = Status.FOCUS_TIME;
+            this.countRound--;
+            this.tempoRestante = this.shortBreakTime * 60;
+        }else if(this.statusAtual == Status.SHORT_BREAK){
+            this.statusAtual = Status.FOCUS_TIME;
+            this.statusAnterior = Status.SHORT_BREAK;
+        }else if(this.statusAtual == Status.LONG_BREAK){
+            this.statusAtual = Status.FOCUS_TIME;
+            this.statusAnterior = Status.LONG_BREAK;
+            this.tempoRestante = this.focusTime * 60;
+            this.countRound--;
+        }
     }
 }
